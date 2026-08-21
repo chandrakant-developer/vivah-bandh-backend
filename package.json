@@ -4,8 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "nodemon src/index.js"
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -19,11 +25,19 @@
     "url": "https://github.com/chandrakant-developer/vivah-bandh-backend/issues"
   },
   "homepage": "https://github.com/chandrakant-developer/vivah-bandh-backend#readme",
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.2.0",
+    "eslint": "^10.8.1",
+    "prettier": "^3.9.6",
+    "tsx": "^4.23.12",
+    "typescript": "~6.0.2",
+    "typescript-eslint": "^8.67.0"
+  },
   "dependencies": {
     "dotenv": "^17.4.2",
-    "express": "^5.2.1"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.14"
+    "express": "^5.2.1",
+    "mongoose": "^9.9.3"
   }
 }
