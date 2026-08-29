@@ -2,8 +2,11 @@ import express from 'express';
 import authRoutes from './modules/auth/auth.routes.js';
 import loggerMiddleware from './middlewares/logger.middleware.js';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 
 const app = express();
+
+app.use(cookieParser());
 
 app.use(
   cors({
