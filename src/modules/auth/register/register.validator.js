@@ -15,59 +15,52 @@ const calculateAge = (dob) => {
 };
 
 const registerSchema = z
-  .object({
-    profileFor: z.enum(
-      ['self', 'son', 'daughter', 'brother', 'sister', 'relative', 'friend'],
-      {
-        error: 'Profile for must be self, son, daughter, brother, sister, relative, or friend'
-      }
-    ),
+  .object(
+    {
+      profileFor: z.enum(['self', 'son', 'daughter', 'brother', 'sister', 'relative', 'friend'], {
+        error: 'Profile for must be self, son, daughter, brother, sister, relative, or friend',
+      }),
 
-    gender: z.enum(
-      ['male', 'female', 'other'],
-      {
-        error: 'Gender must be male, female, or other'
-      }
-    ),
+      gender: z.enum(['male', 'female', 'other'], {
+        error: 'Gender must be male, female, or other',
+      }),
 
-    name: z
-      .string()
-      .trim()
-      .min(2, 'Name must be at least 2 characters')
-      .max(100, 'Name cannot exceed 100 characters')
-      .regex(
-        /^[A-Za-z]+(?: [A-Za-z]+)*$/,
-        'Name can contain only letters and spaces'
-      ),
+      name: z
+        .string()
+        .trim()
+        .min(2, 'Name must be at least 2 characters')
+        .max(100, 'Name cannot exceed 100 characters')
+        .regex(/^[A-Za-z]+(?: [A-Za-z]+)*$/, 'Name can contain only letters and spaces'),
 
-    dob: z.coerce.date({
-      error: 'Invalid date of birth',
-    }),
+      dob: z.coerce.date({
+        error: 'Invalid date of birth',
+      }),
 
-    religion: z.string().trim().min(1, 'Religion is required'),
+      religion: z.string().trim().min(1, 'Religion is required'),
 
-    community: z.string().trim().min(1, 'Community is required'),
+      community: z.string().trim().min(1, 'Community is required'),
 
-    email: z.string().trim().email('Invalid email address'),
+      email: z.string().trim().email('Invalid email address'),
 
-    mobile: z
-      .string()
-      .trim()
-      .regex(/^[6-9]\d{9}$/, 'Invalid Indian mobile number'),
+      mobile: z
+        .string()
+        .trim()
+        .regex(/^[6-9]\d{9}$/, 'Invalid Indian mobile number'),
 
-    password: z.string().min(8, 'Password must be at least 8 characters'),
-  },
-  {
-    error: (issue) => {
-      if (issue.code === 'unrecognized_keys') {
-        return {
-          message: `Invalid fields: ${issue.keys.join(', ')}`,
-        };
-      }
-
-      return undefined;
+      password: z.string().min(8, 'Password must be at least 8 characters'),
     },
-  })
+    {
+      error: (issue) => {
+        if (issue.code === 'unrecognized_keys') {
+          return {
+            message: `Invalid fields: ${issue.keys.join(', ')}`,
+          };
+        }
+
+        return undefined;
+      },
+    }
+  )
   .strict()
   .superRefine((data, ctx) => {
     const today = new Date();

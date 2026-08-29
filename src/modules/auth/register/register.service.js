@@ -59,7 +59,7 @@ export const registerUserService = async ({
       });
 
       await user.save({ session });
-      
+
       const profile = new Profile({
         userId,
         profileFor,
