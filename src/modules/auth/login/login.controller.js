@@ -6,21 +6,26 @@ export const loginController = async (req, res) => {
   try {
     const response = await loginService(req.body);
 
+    res.cookie('accessToken', response.accessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 15 * 60 * 1000,
+      path: '/',
+    });
+
     res.cookie('refreshToken', response.refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
       maxAge: 7 * 24 * 60 * 60 * 1000,
-      path: '/api/auth',
+      path: '/',
     });
 
     return res.status(200).json({
       success: true,
       message: 'Login successfully!',
-      data: {
-        accessToken: response.accessToken,
-        user: response.user,
-      },
+      data: response.user,
     });
   } catch (error) {
     if (error && error.message === LOGIN_ERROS.INVALID_CREDENTIALS) {
