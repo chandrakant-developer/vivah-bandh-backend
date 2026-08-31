@@ -14,15 +14,15 @@ const calculateAge = (dob) => {
   return age;
 };
 
-const registerSchema = z
+export const registerSchema = z
   .object(
     {
       profileFor: z.enum(['self', 'son', 'daughter', 'brother', 'sister', 'relative', 'friend'], {
         error: 'Profile for must be self, son, daughter, brother, sister, relative, or friend',
       }),
 
-      gender: z.enum(['male', 'female', 'other'], {
-        error: 'Gender must be male, female, or other',
+      gender: z.enum(['male', 'female'], {
+        error: 'Gender must be male or female',
       }),
 
       name: z
@@ -47,7 +47,10 @@ const registerSchema = z
         .trim()
         .regex(/^[6-9]\d{9}$/, 'Invalid Indian mobile number'),
 
-      password: z.string().min(8, 'Password must be at least 8 characters'),
+      password: z
+        .string()
+        .min(8, 'Password must be at least 8 characters')
+        .max(128, 'Password must not exceed 128 characters'),
     },
     {
       error: (issue) => {
@@ -77,28 +80,23 @@ const registerSchema = z
 
     const age = calculateAge(data.dob);
 
-    const minimumAge = data.gender === 'male' || data.gender === 'other' ? 21 : 18;
+    const minAge = data.gender === 'male' ? 21 : 18;
 
-    if (age < minimumAge) {
+    if (age < minAge) {
       ctx.addIssue({
         code: 'custom',
         path: ['dob'],
-        message: `Minimum age is ${minimumAge} years for ${data.gender}`,
+        message: `Minimum age for ${data.gender} is ${minAge} years`,
+      });
+    }
+
+    const maxAge = data.gender === 'male' ? 45 : 40;
+
+    if (age > maxAge) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['dob'],
+        message: `Maximum age for ${data.gender} is ${maxAge} years`,
       });
     }
   });
-
-export const validateRegisterUser = (req, res, next) => {
-  const result = registerSchema.safeParse(req.body);
-
-  if (!result.success) {
-    return res.status(400).json({
-      success: false,
-      message: result.error.issues[0].message,
-    });
-  }
-
-  req.body = result.data;
-
-  next();
-};

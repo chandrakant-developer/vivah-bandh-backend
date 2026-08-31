@@ -1,32 +1,47 @@
-import { refreshService } from './refresh.service.js';
-import { REFRESH_ERRORS } from './refresh.errors.js';
 import logger from '../../../logger/logger.js';
+
+import { refreshService } from './refresh.service.js';
+
+import { REFRESH_ERRORS } from './refresh.errors.js';
+import { AUTH_CONFIG } from '../../../config/auth.config.js';
 
 export const refreshController = async (req, res) => {
   try {
-    const { refreshToken } = req.cookies;
-
-    console.log('refreshToken', refreshToken);
-
-    if (!refreshToken) {
-      return res.status(401).json({
-        success: false,
-        message: 'Refresh token is required',
-      });
-    }
+    const refreshToken = req.cookies?.[AUTH_CONFIG.REFRESH_TOKEN_COOKIE_NAME];
 
     const response = await refreshService(refreshToken);
+
+    res.cookie(AUTH_CONFIG.ACCESS_TOKEN_COOKIE_NAME, response.accessToken, {
+      httpOnly: true,
+      secure: AUTH_CONFIG.IS_COOKIE_SECURE,
+      sameSite: 'lax',
+      maxAge: AUTH_CONFIG.ACCESS_TOKEN_MAX_AGE,
+      path: '/',
+    });
 
     return res.status(200).json({
       success: true,
       message: 'Access token refreshed successfully',
-      data: response,
     });
   } catch (error) {
     if (error?.message === REFRESH_ERRORS.INVALID_REFRESH_TOKEN) {
       return res.status(401).json({
         success: false,
-        message: 'Invalid or expired refresh token',
+        message: 'Invalid refresh token',
+      });
+    }
+
+    if (error?.message === REFRESH_ERRORS.REFRESH_TOKEN_REVOKED) {
+      return res.status(401).json({
+        success: false,
+        message: 'Refresh token has been revoked',
+      });
+    }
+
+    if (error?.message === REFRESH_ERRORS.REFRESH_TOKEN_EXPIRED) {
+      return res.status(401).json({
+        success: false,
+        message: 'Expired refresh token',
       });
     }
 

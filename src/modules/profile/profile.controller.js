@@ -1,6 +1,8 @@
-import { profileService } from './profile.service.js';
-import { PROFILE_ERRORS } from './profile.errors.js';
 import logger from '../../logger/logger.js';
+
+import { profileService } from './profile.service.js';
+
+import { PROFILE_ERRORS } from './profile.errors.js';
 
 export const profileController = async (req, res) => {
   try {

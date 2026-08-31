@@ -1,6 +1,8 @@
-import { registerUserService } from './register.service.js';
-import { REGISTER_ERRORS } from './register.errors.js';
 import logger from '../../../logger/logger.js';
+
+import { registerUserService } from './register.service.js';
+
+import { REGISTER_ERRORS } from './register.errors.js';
 
 export const registerUserController = async (req, res) => {
   try {
@@ -12,21 +14,21 @@ export const registerUserController = async (req, res) => {
       data: response,
     });
   } catch (error) {
-    if (error && error.message === REGISTER_ERRORS.EMAIL_EXISTS) {
+    if (error?.message === REGISTER_ERRORS.EMAIL_EXISTS) {
       return res.status(409).json({
         success: false,
         message: 'Email already exists',
       });
     }
 
-    if (error && error.message === REGISTER_ERRORS.MOBILE_EXISTS) {
+    if (error?.message === REGISTER_ERRORS.MOBILE_EXISTS) {
       return res.status(409).json({
         success: false,
         message: 'Mobile number already exists',
       });
     }
 
-    logger.error({ error }, 'Register user error');
+    logger.error({ err: error }, 'Register user error');
 
     return res.status(500).json({
       success: false,
