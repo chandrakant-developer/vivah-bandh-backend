@@ -1,11 +1,8 @@
+import Profile from '../../models/profile.model.js';
+
 import { PROFILE_ERRORS } from './profile.errors.js';
-import Profile from '../profile/profile.model.js';
 
 export const profileService = async (userId) => {
-  if (typeof userId !== 'string' || !userId.trim()) {
-    throw new Error(PROFILE_ERRORS.INVALID_USER_ID);
-  }
-
   const profile = await Profile.findOne({
     userId: userId.trim(),
   }).lean();

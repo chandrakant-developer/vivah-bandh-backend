@@ -1,1 +1,13 @@
-export const SALT_ROUNDS = Number(process.env.BCRYPT_SALT_ROUNDS || 10);
+export const AUTH_CONFIG = {
+  BCRYPT_SALT_ROUNDS: Number(process.env.BCRYPT_SALT_ROUNDS || 10),
+
+  ACCESS_TOKEN_COOKIE_NAME: 'accessToken',
+  REFRESH_TOKEN_COOKIE_NAME: 'refreshToken',
+  DEVICE_ID_COOKIE_NAME: 'deviceId',
+
+  ACCESS_TOKEN_MAX_AGE: 1 * 60 * 1000,
+  REFRESH_TOKEN_MAX_AGE: 5 * 60 * 1000,
+  DEVICE_ID_MAX_AGE: 7 * 60 * 1000,
+
+  IS_COOKIE_SECURE: process.env.IS_COOKIE_SECURE === 'true',
+};
