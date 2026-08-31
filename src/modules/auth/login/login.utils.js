@@ -1,4 +1,4 @@
-export const getUsernameIdentifier = (value) => {
+export const usernameIdentifier = (value) => {
   if (typeof value !== 'string') return null;
 
   const identifier = value.trim();
@@ -14,15 +14,17 @@ export const getUsernameIdentifier = (value) => {
     };
   }
 
-  const mobile = identifier.replace(/[\s-]/g, '');
+  const mobileRegex = /^(?:\+91|91)?[\s-]*[6-9]\d{4}[\s-]?\d{5}$/;
 
-  const normalizedMobile = mobile.startsWith('+91')
-    ? mobile.slice(3)
-    : mobile.startsWith('91') && mobile.length === 12
-      ? mobile.slice(2)
-      : mobile;
+  if (mobileRegex.test(identifier)) {
+    const mobile = identifier.replace(/[\s-]/g, '');
 
-  if (/^[6-9]\d{9}$/.test(normalizedMobile)) {
+    const normalizedMobile = mobile.startsWith('+91')
+      ? mobile.slice(3)
+      : mobile.startsWith('91') && mobile.length === 12
+        ? mobile.slice(2)
+        : mobile;
+
     return {
       type: 'mobile',
       value: normalizedMobile,
