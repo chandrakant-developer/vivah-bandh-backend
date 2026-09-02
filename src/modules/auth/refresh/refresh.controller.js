@@ -22,6 +22,7 @@ export const refreshController = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: 'Access token refreshed successfully',
+      data: response.user,
     });
   } catch (error) {
     if (error?.message === REFRESH_ERRORS.INVALID_REFRESH_TOKEN) {
@@ -42,6 +43,13 @@ export const refreshController = async (req, res) => {
       return res.status(401).json({
         success: false,
         message: 'Expired refresh token',
+      });
+    }
+
+    if (error?.message === REFRESH_ERRORS.USER_NOT_FOUND) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found',
       });
     }
 
