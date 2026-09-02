@@ -34,19 +34,13 @@ export const registerUserService = async ({
 
     if (existingUser) {
       if (existingUser.email === email) {
-        logger.warn(
-          { email },
-          'Registration rejected: email already exists'
-        );
+        logger.warn({ email }, 'Registration rejected: email already exists');
 
         throw new Error(REGISTER_ERRORS.EMAIL_EXISTS);
       }
 
       if (existingUser.mobile === mobile) {
-        logger.warn(
-          { mobile },
-          'Registration rejected: mobile already exists'
-        );
+        logger.warn({ mobile }, 'Registration rejected: mobile already exists');
 
         throw new Error(REGISTER_ERRORS.MOBILE_EXISTS);
       }
@@ -104,19 +98,13 @@ export const registerUserService = async ({
       const field = Object.keys(error.keyPattern || {})[0];
 
       if (field === 'email') {
-        logger.warn(
-          { email },
-          'Registration rejected: email already exists'
-        );
+        logger.warn({ email }, 'Registration rejected: email already exists');
 
         throw new Error(REGISTER_ERRORS.EMAIL_EXISTS, { cause: error });
       }
 
       if (field === 'mobile') {
-        logger.warn(
-          { mobile },
-          'Registration rejected: mobile already exists'
-        );
+        logger.warn({ mobile }, 'Registration rejected: mobile already exists');
 
         throw new Error(REGISTER_ERRORS.MOBILE_EXISTS, { cause: error });
       }

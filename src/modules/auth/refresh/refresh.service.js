@@ -6,11 +6,9 @@ import { REFRESH_ERRORS } from './refresh.errors.js';
 
 export const refreshService = async (refreshToken) => {
   if (!refreshToken) {
-    throw new Error(
-      REFRESH_ERRORS.INVALID_REFRESH_TOKEN
-    );
+    throw new Error(REFRESH_ERRORS.INVALID_REFRESH_TOKEN);
   }
-  
+
   const refreshTokenHash = hashRefreshToken(refreshToken);
 
   const session = await Sessions.findOne({
