@@ -55,14 +55,14 @@ export const loginController = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: 'Login successfully!',
+      message: 'Login successful!',
       data: response.user,
     });
   } catch (error) {
     if (error && error.message === LOGIN_ERRORS.INVALID_CREDENTIALS) {
       return res.status(401).json({
         success: false,
-        message: 'Invalid email or password',
+        message: 'Invalid username or password',
       });
     }
 
