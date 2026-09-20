@@ -2,20 +2,12 @@ import mongoose from 'mongoose';
 
 const profileSchema = new mongoose.Schema(
   {
-    // =========================
-    // Profile Identification
-    // =========================
-
     userId: {
       type: String,
       required: true,
       unique: true,
       index: true,
     },
-
-    // =========================
-    // Basic Information
-    // =========================
 
     profileFor: {
       type: String,
@@ -67,7 +59,7 @@ const profileSchema = new mongoose.Schema(
 
     maritalStatus: {
       type: String,
-      enum: ['never_married', 'divorced', 'widowed', 'separated'],
+      enum: ['Never Married', 'Divorced', 'Widowed', 'Separated'],
       default: null,
     },
 
@@ -76,10 +68,6 @@ const profileSchema = new mongoose.Schema(
       trim: true,
       default: null,
     },
-
-    // =========================
-    // Education & Career
-    // =========================
 
     education: {
       type: String,
@@ -94,30 +82,29 @@ const profileSchema = new mongoose.Schema(
     },
 
     annualIncome: {
-      type: Number,
-      min: 0,
+      type: String,
+      enum: [
+        'Below ₹5 Lakh',
+        '₹5 - ₹10 Lakh',
+        '₹10 - ₹20 Lakh',
+        '₹20 - ₹30 Lakh',
+        '₹30 - ₹50 Lakh',
+        'Above ₹50 Lakh',
+      ],
       default: null,
     },
 
-    // =========================
-    // Family Information
-    // =========================
-
     familyType: {
       type: String,
-      enum: ['joint', 'nuclear', 'extended'],
+      enum: ['Joint Family', 'Nuclear Family', 'Extended Family'],
       default: null,
     },
 
     familyStatus: {
       type: String,
-      enum: ['middle_class', 'upper_middle_class', 'rich', 'affluent'],
+      enum: ['Middle Class', 'Upper Middle Class', 'Rich', 'Affluent'],
       default: null,
     },
-
-    // =========================
-    // Location
-    // =========================
 
     location: {
       country: {
@@ -138,10 +125,6 @@ const profileSchema = new mongoose.Schema(
         default: null,
       },
     },
-
-    // =========================
-    // Partner Preference
-    // =========================
 
     partnerPreference: {
       minAge: {
@@ -177,10 +160,6 @@ const profileSchema = new mongoose.Schema(
       },
     },
 
-    // =========================
-    // Profile Content
-    // =========================
-
     profilePhoto: {
       type: String,
       default: null,
@@ -192,10 +171,6 @@ const profileSchema = new mongoose.Schema(
       trim: true,
       default: null,
     },
-
-    // =========================
-    // Profile Status
-    // =========================
 
     profileCompleted: {
       type: Boolean,

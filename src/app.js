@@ -1,6 +1,7 @@
 import express from 'express';
 import authRoutes from './modules/auth/auth.routes.js';
 import profileRoutes from './modules/profile/profile.routes.js';
+import matchesRoutes from './modules/matches/matches.routes.js';
 import loggerMiddleware from './middlewares/logger.middleware.js';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
@@ -21,6 +22,7 @@ app.use(express.json());
 
 app.use('/api/auth', authRoutes);
 app.use('/api/profile', profileRoutes);
+app.use('/api/v1/matches', matchesRoutes);
 
 app.get('/health', (req, res) => {
   res.json({
