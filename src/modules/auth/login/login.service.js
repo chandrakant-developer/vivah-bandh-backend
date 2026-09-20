@@ -51,9 +51,7 @@ export const loginService = async ({ username, password, deviceId, userAgent, ip
     session.ipAddress = ipAddress || 'Unknown';
     session.expiresAt = expiresAt;
     session.lastUsedAt = new Date();
-    session.revokedAt = null,
-
-    await session.save();
+    ((session.revokedAt = null), await session.save());
   } else {
     await Sessions.create({
       userId: user.userId,

@@ -1,0 +1,14 @@
+export const MATCH_SCORE_WEIGHTS = {
+  AGE: 20,
+  RELIGION: 20,
+  COMMUNITY: 20,
+  EDUCATION: 15,
+  OCCUPATION: 15,
+  LOCATION: 10,
+};
+
+export const MINIMUM_MATCH_SCORE = 40;
+
+export const CANDIDATE_POOL_LIMIT = 500;
+
+export const NEW_MATCH_DAYS = 2;
